@@ -20,6 +20,7 @@ export default function Home({ Data }: { Data: House[] }) {
 
   const [maxRange, setMaxRange] = useState(5000);
   const [minRange, setMinRange] = useState(500);
+  const [isOpened,setIsOpened] = useState(true)
 
   return <><Head>
     <title>Estary</title>
@@ -27,9 +28,9 @@ export default function Home({ Data }: { Data: House[] }) {
     <div className="bg-[#f8f8ff]">
       <Navbar />
       <div className="pl-32 pr-32 ">
-        <Headbar />
-
-        <SearchOption setMaxRange={setMaxRange} setMinRange={setMinRange} />
+        <Headbar setOptionVisible={setIsOpened} />
+{isOpened? <SearchOption setMaxRange={setMaxRange} setMinRange={setMinRange} /> : null}
+        
         <div className="grid grid-cols-3 mt-11 gap-9 justify-items-center">
           {
             Data.filter((e) => {
@@ -51,7 +52,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       Name: "Palm Harbour",
       price: 1500,
       ImageUrl: "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      Address: "New York,USA",
+      Address: "2699 Green Valley, Highland Lake, FL",
       BedCount: 3,
       BathroomCount: 2,
       AreaCount: [5, 7],
