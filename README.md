@@ -8,4 +8,4 @@ yarn dev
 
 # Estary Store MockUp
 
-## The Search Box Updates Product Section Based on Selected Price Range
+## The Search Box Updates Product Section Based on Selected Price Range | Location and Popular / All type

@@ -4,7 +4,7 @@ import Headbar from "../components/Headbar";
 import SearchOption from "../components/SearchOption";
 import HouseComponent from "../components/House";
 import { GetStaticProps } from 'next'
-import { useState } from "react";
+import {  useMemo, useState } from "react";
 
 interface House {
   Name: string,
@@ -17,11 +17,22 @@ interface House {
   isPopular?: boolean,
 }
 export default function Home({ Data }: { Data: House[] }) {
-
   const [maxRange, setMaxRange] = useState(5000);
   const [minRange, setMinRange] = useState(500);
-  const [isOpened,setIsOpened] = useState(true)
-
+  const [isOpened,setIsOpened] = useState(true);
+  const [LocationText,setLocationText] = useState<string>('');
+  const [PopularType,setPopularType] = useState<boolean>(false);
+  const CacheData = useMemo(()=>{
+    return Data.filter(e=>{
+      if (PopularType){
+        return e.isPopular
+      }else{
+        return true
+      }
+    }).filter(z=>{
+      return z.price>=minRange && z.price<=maxRange && z.Address.includes(LocationText)
+    })
+  },[Data,maxRange,LocationText,PopularType])
   return <><Head>
     <title>Estary</title>
   </Head>
@@ -29,16 +40,11 @@ export default function Home({ Data }: { Data: House[] }) {
       <Navbar />
       <div className="pl-32 pr-32 ">
         <Headbar setOptionVisible={setIsOpened} />
-{isOpened? <SearchOption setMaxRange={setMaxRange} setMinRange={setMinRange} /> : null}
-        
+{isOpened? <SearchOption LocationSetter={setLocationText} PopularTypeSetter={setPopularType} setMaxRange={setMaxRange} setMinRange={setMinRange} /> : null}
         <div className="grid grid-cols-3 mt-11 gap-9 justify-items-center">
           {
-            Data.filter((e) => {
-              return ((e.price >= minRange) && (e.price <= maxRange))
-            }).length != 0 ? Data.filter((e) => {
-              return ((e.price >= minRange) && (e.price <= maxRange))
-            }).map((e, index) => {
-              return <HouseComponent key={index} ImageURL={e.ImageUrl} Name={e.Name} Price={e.price} Address={e.Address} BedNumber={e.BedCount} Bathroom={e.BathroomCount} Area={e.AreaCount} isPopular={e.isPopular} />
+            CacheData.length!= 0 ? CacheData.map(f=>{
+              return <HouseComponent Name={f.Name} isPopular={f.isPopular} ImageURL={f.ImageUrl} Price={f.price} Address={f.Address} BedNumber={f.BedCount} Bathroom={f.BathroomCount} Area={f.AreaCount} />
             }) : <div className="text-2xl font-bold text-center w-full text-[#6f66ef]">No House Found</div>
           }
         </div>
@@ -82,7 +88,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       Address: "210 US Highway, Highland Lake, FL",
       BedCount: 4,
       BathroomCount: 2,
-      AreaCount: [6, 8]
+      AreaCount: [6, 8],
+      isPopular: false
     }, {
       Name: "Cove Red",
       price: 1500,
@@ -90,7 +97,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       Address: "243 Curlew Road, Palm Harbor, TX",
       BedCount: 2,
       BathroomCount: 1,
-      AreaCount: [5, 7.5]
+      AreaCount: [5, 7.5],
+      isPopular: false
     }, {
       Name: "The Old Steele",
       "ImageUrl": "https://images.pexels.com/photos/1438832/pexels-photo-1438832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -98,7 +106,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       price: 1600,
       BedCount: 6,
       BathroomCount: 3,
-      AreaCount: [5, 7]
+      AreaCount: [5, 7],
+      isPopular: false
     }, {
       Name: "St. Crystal",
       price: 2400,
@@ -106,7 +115,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       Address: "210 US Highway, Highland Lake, FL",
       BedCount: 4,
       BathroomCount: 2,
-      AreaCount: [6, 8]
+      AreaCount: [6, 8],
+      isPopular: false
     }, {
       Name: "Cove Red",
       price: 1500,
@@ -114,7 +124,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       Address: "243 Curlew Road, Palm Harbor, TX",
       BedCount: 2,
       BathroomCount: 1,
-      AreaCount: [5, 7.5]
+      AreaCount: [5, 7.5],
+      isPopular: false
 
     }, {
       Name: "Tarpon Bay",
@@ -123,7 +134,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       Address: "103 Lake Shores, Michigan, IN",
       BedCount: 3,
       BathroomCount: 1,
-      AreaCount: [5, 7]
+      AreaCount: [5, 7],
+      isPopular: false
     }
   ]
   return {
