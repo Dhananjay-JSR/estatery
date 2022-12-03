@@ -30,7 +30,7 @@ export default function Home({ Data }: { Data: House[] }) {
         return true
       }
     }).filter(z=>{
-      return z.price>=minRange && z.price<=maxRange && z.Address.includes(LocationText)
+      return  z.price<=maxRange && z.Address.includes(LocationText)
     })
   },[Data,maxRange,LocationText,PopularType])
   return <><Head>
@@ -43,8 +43,8 @@ export default function Home({ Data }: { Data: House[] }) {
 {isOpened? <SearchOption LocationSetter={setLocationText} PopularTypeSetter={setPopularType} setMaxRange={setMaxRange} setMinRange={setMinRange} /> : null}
         <div className="grid grid-cols-3 mt-11 gap-9 justify-items-center">
           {
-            CacheData.length!= 0 ? CacheData.map(f=>{
-              return <HouseComponent Name={f.Name} isPopular={f.isPopular} ImageURL={f.ImageUrl} Price={f.price} Address={f.Address} BedNumber={f.BedCount} Bathroom={f.BathroomCount} Area={f.AreaCount} />
+            CacheData.length!= 0 ? CacheData.map((f,index)=>{
+              return <HouseComponent key={index} Name={f.Name} isPopular={f.isPopular} ImageURL={f.ImageUrl} Price={f.price} Address={f.Address} BedNumber={f.BedCount} Bathroom={f.BathroomCount} Area={f.AreaCount} />
             }) : <div className="text-2xl font-bold text-center w-full text-[#6f66ef]">No House Found</div>
           }
         </div>
