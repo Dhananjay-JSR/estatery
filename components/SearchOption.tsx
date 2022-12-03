@@ -165,15 +165,15 @@ function DefaultGridOption(props: DefaultGridOptionProps) {
 
 export default function SearchOption({ setMaxRange, setMinRange,LocationSetter,PopularTypeSetter }: { setMaxRange: Dispatch<SetStateAction<number>>, setMinRange: Dispatch<SetStateAction<number>>,LocationSetter: Dispatch<SetStateAction<string>>,PopularTypeSetter: Dispatch<SetStateAction<boolean >> }) {
     const MaxCountRef = useRef(5000);
-    const LocationValue = useRef<string>();
-    const OptionValue = useRef<boolean>()
+    const LocalLocationValue = useRef<string>();
+    const LocalOptionValue = useRef<boolean>()
     return <>
         <div className=" rounded-lg bg-white mt-8 pt-5 pb-5 grid grid-cols-5 gap-4">
-            <DefaultGridOption localRef={LocationValue} description="Enter Location" title="Location" type="input" />
+            <DefaultGridOption localRef={LocalLocationValue} description="Enter Location" title="Location" type="input" />
             <DefaultGridOption description="Select Move-in Date" title="When" type="date" />
             <DefaultGridOption maxRef={MaxCountRef} min={500} max={5000} title="Price" type="range" />
-            <DefaultGridOption localRef={OptionValue} options={["Popular","All"]} title="Property Type" type="option" />
-            <DefaultGridOption localRefObjects={[LocationValue,OptionValue]} inputSetter={LocationSetter} optionSetter={PopularTypeSetter} maxRef={MaxCountRef} setMaxRange={setMaxRange} setMinRange={setMinRange} title="Search" type="button" />
+            <DefaultGridOption localRef={LocalOptionValue} options={["Popular","All"]} title="Property Type" type="option" />
+            <DefaultGridOption localRefObjects={[LocalLocationValue,LocalOptionValue]} inputSetter={LocationSetter} optionSetter={PopularTypeSetter} maxRef={MaxCountRef} setMaxRange={setMaxRange} setMinRange={setMinRange} title="Search" type="button" />
         </div>
     </>
 }
