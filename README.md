@@ -11,4 +11,5 @@ yarn dev
 ## The Search Box Updates Product Section Based on Selected Price Range | Location and Popular / All type
 
 
-![ezgif-5-0598780f2c](https://user-images.githubusercontent.com/47073516/205397251-25effa81-2ed1-4174-ae16-001f9df76cd9.gif)
+
+![ezgif-1-184740661f (1)](https://user-images.githubusercontent.com/47073516/205436506-1fe7bc8c-a871-4a7b-a40d-4e9ae81c2427.gif)
